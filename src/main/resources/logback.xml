@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <contextName>${APP_NAME}</contextName>
+    <!-- 模块存放日志文件路径 -->
+    <property name="Log_Home" value="${catalina.base}/logs"/>
+    <property name="APP_NAME" value="mybatisPlus"/>
+
+    <!-- see https://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy -->
+    <!-- run级别 -->
+    <appender name="infoFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${Log_Home}/${APP_NAME}-info.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${Log_Home}/${APP_NAME}-info.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- 保留15天-->
+            <MaxHistory>15</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>2MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{MM-dd HH:mm:ss.SSS} %t %logger%n %level：%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- debug级别 -->
+    <appender name="debugFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${Log_Home}/${APP_NAME}-debug.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${Log_Home}/${APP_NAME}-debug.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <MaxHistory>15</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>2MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{MM-dd HH:mm:ss.SSS} %t %logger%n %level：%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- debug级别 -->
+    <appender name="messageAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${Log_Home}/${APP_NAME}-message.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${Log_Home}/${APP_NAME}-message.%d{yyyy-MM-dd-HH}.%i.log
+            </FileNamePattern>
+            <MaxHistory>15</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>2MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{MM-dd HH:mm:ss.SSS} %t %logger%n %level：%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- error级别 -->
+    <appender name="errorFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${Log_Home}/${APP_NAME}-error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${Log_Home}/${APP_NAME}-error.%d{yyyy-MM-dd-HH}.%i.log
+            </FileNamePattern>
+            <MaxHistory>15</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>2MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{MM-dd HH:mm:ss.SSS} %t %logger%n %level：%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- 数据库日志 -->
+    <appender name="JDBC"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${Log_Home}/${APP_NAME}-sql.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${Log_Home}/${APP_NAME}-sql.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <MaxHistory>7</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>2MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{MM-dd HH:mm:ss.SSS} %t %logger%n %level：%msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 日志输出编码 -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 其他第三方日志,如果不设置level,继承root的level -->
+    <logger name="org.apache.http.wire">
+        <level value="DEBUG"/>
+    </logger>
+
+
+    <logger name="org.apache.http.wire" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="messageAppender"/>
+    </logger>
+
+    <logger name="org.springframework.cache">
+        <level value="TRACE"/>
+    </logger>
+
+    <logger name="httpclient.wire" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="consoleAppender"/>
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="DEBUG"/>
+    </logger>
+    <!-- hibernate cache logger -->
+    <logger name="net.sf.ehcache">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.apache.shiro.web.filter">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.apache.shiro.web.servlet.SimpleCookie">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="com.warrior">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" additivity="false">
+        <level value="OFF"></level>
+        <appender-ref ref="messageAppender"/>
+    </logger>
+
+    <logger name="com.messcat.app.web.interceptor.EventInterceptor">
+        <level value="DEBUG"></level>
+    </logger>
+
+    <logger name="com.messcat.common.shiro.RedisSessionDAO">
+        <level value="OFF"></level>
+    </logger>
+
+    <!-- 当前日志总级别为DEBUG|INFO|WARN|ERROR|FATAL -->
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="debugFileAppender"/>
+        <appender-ref ref="infoFileAppender"/>
+        <appender-ref ref="errorFileAppender"/>
+    </root>
+</configuration>
